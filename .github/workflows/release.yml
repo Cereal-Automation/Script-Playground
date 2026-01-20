@@ -1,0 +1,47 @@
+name: Build script JAR
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: jetbrains
+      - name: Obfuscate
+        run:
+          ./gradlew scriptJar
+      - name: Rename jar with version
+        run: mv build/cereal/release.jar build/cereal/release-${{ github.ref_name }}.jar
+      - name: Store script jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: script-${{ github.ref_name }}-release
+          path: build/cereal/release-${{ github.ref_name }}.jar
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          files: build/cereal/release-${{ github.ref_name }}.jar
+          generate_release_notes: true
