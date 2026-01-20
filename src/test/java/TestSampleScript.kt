@@ -33,8 +33,6 @@ class TestSampleScript {
             every { floatValue() } returns 101.0f
             every { doubleValue() } returns 102.0
             every { proxyValue() } returns Proxy(id="some-id", address = "10.0.0.0", port = 10000)
-            every { usernameValue() } returns "MyUsername"
-            every { passwordValue() } returns "MyPassword"
         }
         val componentProviderFactory = TestComponentProviderFactory()
 
