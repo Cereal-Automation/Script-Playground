@@ -1,13 +1,11 @@
 package com.cereal.script.playground
 
-import com.cereal.licensechecker.LicenseChecker
-import com.cereal.licensechecker.LicenseState
 import com.cereal.sdk.component.ComponentProvider
 import com.cereal.sdk.ExecutionResult
 import com.cereal.sdk.Script
 
 
-class SampleScript : Script<PlaygroundConfiguration> {
+class PlaygroundScript : Script<PlaygroundConfiguration> {
 
     override suspend fun onStart(configuration: PlaygroundConfiguration, provider: ComponentProvider): Boolean {
         return true

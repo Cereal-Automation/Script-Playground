@@ -1,7 +1,7 @@
 import com.cereal.licensechecker.LicenseChecker
 import com.cereal.licensechecker.LicenseState
 import com.cereal.script.playground.PlaygroundConfiguration
-import com.cereal.script.playground.SampleScript
+import com.cereal.script.playground.PlaygroundScript
 import com.cereal.sdk.models.proxy.Proxy
 import com.cereal.test.TestScriptRunner
 import com.cereal.test.components.TestComponentProviderFactory
@@ -13,12 +13,12 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import org.junit.Test
 
-class TestSampleScript {
+class TestPlaygroundScript {
 
     @Test
     fun testSuccess() = runBlocking {
         // Initialize script and the test script runner.
-        val script = SampleScript()
+        val script = PlaygroundScript()
         val scriptRunner = TestScriptRunner(script)
 
         // Mock the LicenseChecker
