@@ -1,7 +1,7 @@
 import com.cereal.licensechecker.LicenseChecker
 import com.cereal.licensechecker.LicenseState
-import com.cereal.script.sample.SampleConfiguration
-import com.cereal.script.sample.SampleScript
+import com.cereal.script.playground.PlaygroundConfiguration
+import com.cereal.script.playground.SampleScript
 import com.cereal.sdk.models.proxy.Proxy
 import com.cereal.test.TestScriptRunner
 import com.cereal.test.components.TestComponentProviderFactory
@@ -26,7 +26,7 @@ class TestSampleScript {
         coEvery { anyConstructed<LicenseChecker>().checkAccess() } returns LicenseState.Licensed
 
         // Mock the configuration values
-        val configuration = mockk<SampleConfiguration> {
+        val configuration = mockk<PlaygroundConfiguration> {
             every { nullableStringValue() } returns null
             every { booleanValue() } returns true
             every { integerValue() } returns 100

@@ -1,7 +1,6 @@
 {
-  "package_name": "com.cereal.samplescript",
-  "name": "SampleScript",
+  "package_name": "com.cereal.playground",
+  "name": "SDK Playground",
   "version_code": 1,
-  "script": "com.cereal.script.sample.SampleScript",
-  "instructions": "Please make sure you already have an active account before using this script."
+  "script": "com.cereal.script.playground.PlaygroundScript"
 }
