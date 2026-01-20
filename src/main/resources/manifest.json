@@ -1,6 +1,6 @@
 {
   "package_name": "com.cereal.playground",
   "name": "SDK Playground",
-  "version_code": 2,
+  "version_code": 3,
   "script": "com.cereal.script.playground.PlaygroundScript"
 }
