@@ -1,5 +1,3 @@
-# SDK Playground
-
 A demonstration script showcasing the Cereal SDK capabilities and serving as a template for script development.
 
 ## Overview
