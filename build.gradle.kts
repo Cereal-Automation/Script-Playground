@@ -61,7 +61,7 @@ buildscript {
 
 dependencies {
     // These dependencies are added as compileOnly because they are available in the environment where the scripts run.
-    compileOnly("com.cereal-automation:cereal-licensing:1.6.1") {
+    compileOnly("com.cereal-automation:cereal-sdk:1.6.1") {
         artifact {
             classifier = "all"
         }
@@ -69,6 +69,11 @@ dependencies {
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:2.2.0")
     implementation("com.cereal-automation:cereal-licensing:1.6.1")
 
+    testImplementation("com.cereal-automation:cereal-sdk:1.6.1") {
+        artifact {
+            classifier = "all"
+        }
+    }
     testImplementation(kotlin("test"))
     testImplementation("com.cereal-automation:cereal-test-utils:1.6.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
