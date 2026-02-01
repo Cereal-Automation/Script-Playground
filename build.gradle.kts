@@ -1,3 +1,6 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import proguard.gradle.ProGuardTask
+
 plugins {
     kotlin("jvm") version "2.2.0"
     id("com.gradleup.shadow") version "8.3.6"
@@ -11,29 +14,19 @@ allprojects {
         }
     }
 
-    apply(plugin = "com.gradleup.shadow")
-
-    tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-        archiveFileName.set("release.jar")
-
-        dependencies {
-            // The below dependencies are included in the Cereal client by default so they can be excluded here.
-            // New (breaking) versions will have a different artifact id so they will always stay compatible.
-            // Be careful when adding something here because Proguard could need the code to determine that methods
-            // called by any of these libs are in still in use so that Proguard doesn't remove them. For example
-            // kotlinx-coroutines-core isn't excluded for that reason.
-            exclude { dependency ->
-                dependency.moduleGroup == "com.cereal-automation" &&
-                    (dependency.moduleName == "cereal-sdk" || dependency.moduleName == "cereal-chrome-driver")
-            }
-
-            // Kotlin is included in the Cereal client by default so leave it out to make the script binary smaller and to
-            // prevent conflicts with coroutines, which is also used in the Scripts' interface.
-            exclude("DebugProbesKt.bin", "META-INF/**", "*.jpg", "kotlin/**")
-        }
+    // Exclude these dependencies because they are already included in the Cereal client.
+    configurations.runtimeClasspath {
+        exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+        exclude(group = "com.cereal-automation", module = "cereal-sdk")
     }
 
-    tasks.register("scriptJar", proguard.gradle.ProGuardTask::class.java) {
+    apply(plugin = "com.gradleup.shadow")
+
+    tasks.withType<ShadowJar> {
+        archiveFileName.set("release.jar")
+    }
+
+    tasks.register("scriptJar", ProGuardTask::class.java) {
         description = "Build script jar with obfuscation"
         dependsOn("shadowJar")
 
@@ -67,7 +60,13 @@ buildscript {
 }
 
 dependencies {
-    implementation("com.cereal-automation:cereal-sdk:1.6.1:all")
+    // These dependencies are added as compileOnly because they are available in the environment where the scripts run.
+    compileOnly("com.cereal-automation:cereal-licensing:1.6.1") {
+        artifact {
+            classifier = "all"
+        }
+    }
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:2.2.0")
     implementation("com.cereal-automation:cereal-licensing:1.6.1")
 
     testImplementation(kotlin("test"))
